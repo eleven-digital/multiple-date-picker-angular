@@ -6,12 +6,12 @@ var template_1 = require("./template");
 var moment = require("moment/moment");
 var MultipleDatePickerComponent = (function () {
     function MultipleDatePickerComponent() {
-        this.cssDaysOfSurroundingMonths = this.cssDaysOfSurroundingMonths || 'picker-empty';
+        this.cssDaysOfSurroundingMonths = 'picker-empty';
         this.arrow = 0;
         this.month = moment().startOf('day'); // today's day at start of day midnight or passed in value
         this.projectScope = [];
         this.days = [];
-        this.daysOff = this.daysOff || [];
+        this.daysOff = [];
         this.disableBackButton = false;
         this.disableNextButton = false;
         this.daysOfWeek = [];
@@ -54,6 +54,9 @@ var MultipleDatePickerComponent = (function () {
                         if (d.date.isSame(day)) {
                             d.mdp.selected = true;
                             return;
+                        }
+                        else {
+                            d.mdp.selected = false;
                         }
                     });
                 });
@@ -243,7 +246,7 @@ var MultipleDatePickerComponent = (function () {
     };
     /*Change year*/
     MultipleDatePickerComponent.prototype.changeYear = function (year) {
-        this.month = this.month.year(parseInt(year, 10));
+        this.month = this.month.year(year);
     };
     ;
     /*Check if the date is off : unselectable*/

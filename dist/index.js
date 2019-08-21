@@ -1,5 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var multiple_date_picker_module_1 = require("./multiple-date-picker.module");
+exports.MultipleDatePickerModule = multiple_date_picker_module_1.MultipleDatePickerModule;
 var multiple_date_picker_component_1 = require("./multiple-date-picker.component");
 exports.MultipleDatePickerComponent = multiple_date_picker_component_1.MultipleDatePickerComponent;
 var date_range_helper_1 = require("./date-range-helper");
