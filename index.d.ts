@@ -1,1 +1,1 @@
-export * from './dist/multiple-date-picker.module';
+export * from './dist/index';

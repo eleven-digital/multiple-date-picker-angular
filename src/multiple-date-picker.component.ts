@@ -19,11 +19,11 @@ export class MultipleDatePickerComponent implements OnInit, ControlValueAccessor
     @Input() highlightDays: Array<any>;
     @Input() dayClick: any;
     @Input() dayHover: string;
-    @Input() rightClick: string;
+    @Input() rightClick: Function;
     @Input() monthChanged: any;
     @Input() fontAwesome: boolean;
     @Input() matIcons: boolean;
-    @Input() monthClick: string;
+    @Input() monthClick: Function;
     @Input() weekDaysOff: Array<number>;
     @Input() allDaysOff: string;
     @Input() daysAllowed: any;
@@ -31,7 +31,7 @@ export class MultipleDatePickerComponent implements OnInit, ControlValueAccessor
     @Input() disallowBackPastMonths: boolean;
     @Input() disallowGoFuturMonths: string;
     @Input() showDaysOfSurroundingMonths: boolean;
-    @Input() cssDaysOfSurroundingMonths: any = this.cssDaysOfSurroundingMonths || 'picker-empty';
+    @Input() cssDaysOfSurroundingMonths: any = 'picker-empty';
     @Input() fireEventsForDaysOfSurroundingMonths: string;
     @Input() disableDaysBefore: any;
     @Input() disableDaysAfter: any;
@@ -42,7 +42,7 @@ export class MultipleDatePickerComponent implements OnInit, ControlValueAccessor
     @Input() month = moment().startOf('day');  // today's day at start of day midnight or passed in value
     @Input() projectScope: Array<any> = [];
     days: Array<any> = [];
-    daysOff: any = this.daysOff || [];
+    daysOff: any = [];
     disableBackButton: any = false;
     disableNextButton: any = false;
     daysOfWeek: Array<any> = [];
@@ -94,6 +94,8 @@ export class MultipleDatePickerComponent implements OnInit, ControlValueAccessor
                     if(d.date.isSame(day)){
                         d.mdp.selected = true;
                         return;
+                    } else {
+                        d.mdp.selected = false;
                     }
                 });
             });
@@ -155,7 +157,7 @@ export class MultipleDatePickerComponent implements OnInit, ControlValueAccessor
         }
         return result;
     };
-    toggleDay(event, day) {
+    toggleDay(event: Event, day: any) {
         event.preventDefault();
         if (day.mdp.otherMonth && !this.fireEventsForDaysOfSurroundingMonths) {
             return;
@@ -209,13 +211,13 @@ export class MultipleDatePickerComponent implements OnInit, ControlValueAccessor
     runGenerate() {
         this.generate();
     } // remove this and from html
-    rightClicked(event, day) {
+    rightClicked(event: Event, day: any) {
         if (typeof this.rightClick === 'function') {
             event.preventDefault();
             this.rightClick(event, day);
         }
     }
-    getDayClasses(day) {
+    getDayClasses(day: any) {
         //console.log('this is day = ' + JSON.stringify(day)); // for testing keep
         let css = '';
         if (day.css && (!day.mdp.otherMonth || this.showDaysOfSurroundingMonths)) {
@@ -261,7 +263,7 @@ export class MultipleDatePickerComponent implements OnInit, ControlValueAccessor
     }
     
     /*Navigate to another month*/
-    changeMonth(event, disable, add) {
+    changeMonth(event: Event, disable: boolean, add: number) {
         if (disable) {
             return;
         }
@@ -286,22 +288,22 @@ export class MultipleDatePickerComponent implements OnInit, ControlValueAccessor
     }
 
     /*Change year*/
-    changeYear(year) {
-        this.month = this.month.year(parseInt(year, 10));
+    changeYear(year: number) {
+        this.month = this.month.year(year);
     };
 
     /*Check if the date is off : unselectable*/
-    isDayOff(day) {
+    isDayOff(day: any) {
         return this.allDaysOff ||
             (this.disableDaysBefore && moment(day.date).isBefore(moment(), 'day')) ||
             (!!this.disableDaysAfter && moment(day.date).isAfter(moment(), 'day')) ||
             ((this.weekDaysOff instanceof Array) && this.weekDaysOff.some(function (dayOff) {
                 return day.date.day() === dayOff;
             })) ||
-            ((this.daysOff === Array) && this.daysOff.some(function (dayOff) {
+            ((this.daysOff === Array) && this.daysOff.some(function (dayOff: moment.Moment) {
                 return day.date.isSame(dayOff, 'day');
             })) ||
-            ((this.daysAllowed === Array) && !this.daysAllowed.some(function (dayAllowed) {
+            ((this.daysAllowed === Array) && !this.daysAllowed.some(function (dayAllowed: moment.Moment) {
                 return day.date.isSame(dayAllowed, 'day');
             })) ||
             ((Object.prototype.toString.call(this.highlightDays) === '[object Array]') && this.highlightDays.some(function (highlightDay) {
@@ -310,7 +312,7 @@ export class MultipleDatePickerComponent implements OnInit, ControlValueAccessor
     }
 
     /*Check if the date is selected*/
-    isSelected(day) {
+    isSelected(day: any) {
         return this.projectScope.some(function (d) {
             return day.date.isSame(d, 'day');
         });
@@ -335,7 +337,7 @@ export class MultipleDatePickerComponent implements OnInit, ControlValueAccessor
                 let day = {
                     selectable: true,
                     date: moment(previousDay.add(1, 'day')),
-                    css: null,
+                    css: null as string,
                     title: '',
                     mdp: {
                         selected: false,
