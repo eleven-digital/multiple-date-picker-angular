@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import {DEFAULT_TEMPLATE, DEFAULT_STYLES} from './template';
+import { DEFAULT_TEMPLATE, DEFAULT_STYLES } from './template';
 import * as moment from 'moment/moment';
 
 @Component({
@@ -8,12 +8,12 @@ import * as moment from 'moment/moment';
     template: DEFAULT_TEMPLATE,
     styles: [DEFAULT_STYLES],
     providers: [
-        { 
-          provide: NG_VALUE_ACCESSOR,
-          useExisting: forwardRef(() => MultipleDatePickerComponent),
-          multi: true
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => MultipleDatePickerComponent),
+            multi: true
         }
-      ]
+    ]
 })
 export class MultipleDatePickerComponent implements OnInit, ControlValueAccessor {
     @Input() highlightDays: Array<any>;
@@ -54,8 +54,8 @@ export class MultipleDatePickerComponent implements OnInit, ControlValueAccessor
 
     constructor(
 
-    ) { 
-        
+    ) {
+
     }
 
     ngOnInit(): void {
@@ -88,26 +88,22 @@ export class MultipleDatePickerComponent implements OnInit, ControlValueAccessor
                 this.projectScope = this.projectScope.map((val: Date) => {
                     return moment(val);
                 });
-                this.projectScope.forEach((val: Date) => {
-                let day = val;
                 this.days.forEach((d) => {
-                    if(d.date.isSame(day)){
+                    if (this.projectScope.some(day => d.date.isSame(day))) {
                         d.mdp.selected = true;
-                        return;
                     } else {
                         d.mdp.selected = false;
                     }
                 });
-            });
             }
         }
     }
-    propagateChange = (_: any) => {};
+    propagateChange = (_: any) => { };
     registerOnChange(fn: any) {
         this.propagateChange = fn;
     }
 
-    registerOnTouched() {}
+    registerOnTouched() { }
 
     @Input() _projectScope: any[];
     get projectScope2() {
@@ -119,8 +115,8 @@ export class MultipleDatePickerComponent implements OnInit, ControlValueAccessor
     }
     checkNavigationButtons() {
         let today = moment(),
-        previousMonth = moment(this.month).subtract(1, 'month'),
-        nextMonth = moment(this.month).add(1, 'month');
+            previousMonth = moment(this.month).subtract(1, 'month'),
+            nextMonth = moment(this.month).add(1, 'month');
         this.disableBackButton = this.disableNavigation || (this.disallowBackPastMonths && today.isAfter(previousMonth, 'month'));
         this.disableNextButton = this.disableNavigation || (this.disallowGoFuturMonths && today.isBefore(nextMonth, 'month'));
     }
@@ -196,9 +192,9 @@ export class MultipleDatePickerComponent implements OnInit, ControlValueAccessor
                         }
                     }
                 }
-                if (idx !== -1){
+                if (idx !== -1) {
                     this.projectScope.splice(idx, 1);
-                } 
+                }
             }
         }
         this.propagateChange(this.projectScope);
@@ -206,7 +202,7 @@ export class MultipleDatePickerComponent implements OnInit, ControlValueAccessor
     clearDays() {
         this.projectScope = [];
         this.generate();
-         console.log('clearDays was fired off'); // for testing
+        console.log('clearDays was fired off'); // for testing
     }
     runGenerate() {
         this.generate();
@@ -261,7 +257,7 @@ export class MultipleDatePickerComponent implements OnInit, ControlValueAccessor
         }
         return css;
     }
-    
+
     /*Navigate to another month*/
     changeMonth(event: Event, disable: boolean, add: number) {
         if (disable) {
@@ -364,7 +360,7 @@ export class MultipleDatePickerComponent implements OnInit, ControlValueAccessor
                 }
                 return day;
             }
-            let maxDays = lastDay.diff(previousDay, 'days'),
+        let maxDays = lastDay.diff(previousDay, 'days'),
             lastDayOfWeek = this.sundayFirstDay ? 6 : 0;
         if (lastDay.day() !== lastDayOfWeek) {
             maxDays += (this.sundayFirstDay ? 6 : 7) - lastDay.day();
