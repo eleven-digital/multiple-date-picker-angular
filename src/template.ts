@@ -21,7 +21,7 @@ export const DEFAULT_TEMPLATE = `
         <div class="text-center" *ngFor="let weekDays of daysOfWeek">{{weekDays}}</div>
     </div>
     <div class="picker-days-row">
-        <div dateClicked class="text-center picker-day {{getDayClasses(day)}}" title="{{day.title}}" *ngFor="let day of days" (click)="toggleDay($event, day)" (mouseOver)="highlightDay($event,day)" (mouseLeave)="unHighlightDay($event,day)" >
+        <div dateClicked class="text-center picker-day {{getDayClasses(day)}}" title="{{day.title}}" *ngFor="let day of days" (click)="toggleDay($event, day)" (mouseenter)="highlightDay($event,day)" (mouseleave)="unHighlightDay($event,day)" >
             {{day ? day.mdp.otherMonth && !showDaysOfSurroundingMonths ? '&nbsp;' : day.date.format('D') : ''}}
         </div>
     </div>
