@@ -23,7 +23,7 @@ export class DateRangeHelper {
      * those date ranges into a consumable array of dates... this will allow for a single 
      * date array.  Pass in milliseconds
     */
-    static getDates = (startDate: any, stopDate: any): Array<Date> => {
+    getDates = (startDate: any, stopDate: any): Array<Date> => {
         let dateArray = new Array();
         let currentDate = startDate;
         // protection from dates that may be inversed... protection should exist on main component too
@@ -44,7 +44,7 @@ export class DateRangeHelper {
      * this is then used for the getDates method which will take said date range and transform it into a 
      * consumable array of dates inbetween those ranges
     */
-    static dateRangeDaysCalculator = (stopDate: number, startDate: number): number => {
+    dateRangeDaysCalculator = (stopDate: number, startDate: number): number => {
         const msMinute = 60 * 1000,
             msDay = 60 * 60 * 24 * 1000;
         let dateRangeDays = Math.floor((stopDate - startDate) / msDay);
@@ -56,7 +56,7 @@ export class DateRangeHelper {
      * this is used to determine the number of months the range should be visualized on the front end 
      * so that the person is taken to the month that the date range is supposed to be visible
     */
-    static dateRangeMonthsCalculator = (arrivalDate: number): number => {
+    dateRangeMonthsCalculator = (arrivalDate: number): number => {
         let dateRangeMonths = (new Date(arrivalDate).getMonth() - (new Date().getMonth()));
         return dateRangeMonths
     }
