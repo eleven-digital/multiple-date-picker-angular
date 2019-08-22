@@ -1,6 +1,7 @@
 import { OnInit } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import * as moment from 'moment/moment';
+import { Observable } from 'rxjs/Observable';
 export declare class MultipleDatePickerComponent implements OnInit, ControlValueAccessor {
     highlightDays: Array<any>;
     dayClick: any;
@@ -36,6 +37,8 @@ export declare class MultipleDatePickerComponent implements OnInit, ControlValue
     monthToDisplay: string;
     yearToDisplay: string;
     sundayFirstDay: boolean;
+    readonly hover: Observable<[moment.Moment, boolean]>;
+    private _highlighter;
     constructor();
     ngOnInit(): void;
     arrowSelected(): 1 | 2;
@@ -60,4 +63,6 @@ export declare class MultipleDatePickerComponent implements OnInit, ControlValue
     isSelected(day: any): boolean;
     generate(): void;
     findArrayofDays(): void;
+    highlightDay(event: Event, day: moment.Moment): void;
+    unHighlightDay(event: Event, day: moment.Moment): void;
 }

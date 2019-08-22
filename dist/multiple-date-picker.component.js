@@ -17,8 +17,16 @@ var MultipleDatePickerComponent = (function () {
         this.daysOfWeek = [];
         // _cssDaysOfSurroundingMonths: any = this._cssDaysOfSurroundingMonths || 'picker-empty';
         this.yearsForSelect = [];
+        this._highlighter = new core_1.EventEmitter();
         this.propagateChange = function (_) { };
     }
+    Object.defineProperty(MultipleDatePickerComponent.prototype, "hover", {
+        get: function () {
+            return this._highlighter.asObservable();
+        },
+        enumerable: true,
+        configurable: true
+    });
     MultipleDatePickerComponent.prototype.ngOnInit = function () {
         /**
          * check to see if this.month is undefined... if it is set to todays date info
@@ -48,17 +56,13 @@ var MultipleDatePickerComponent = (function () {
                 this.projectScope = this.projectScope.map(function (val) {
                     return moment(val);
                 });
-                this.projectScope.forEach(function (val) {
-                    var day = val;
-                    _this.days.forEach(function (d) {
-                        if (d.date.isSame(day)) {
-                            d.mdp.selected = true;
-                            return;
-                        }
-                        else {
-                            d.mdp.selected = false;
-                        }
-                    });
+                this.days.forEach(function (d) {
+                    if (_this.projectScope.some(function (day) { return d.date.isSame(day, 'day'); })) {
+                        d.mdp.selected = true;
+                    }
+                    else {
+                        d.mdp.selected = false;
+                    }
                 });
             }
         }
@@ -329,6 +333,12 @@ var MultipleDatePickerComponent = (function () {
     MultipleDatePickerComponent.prototype.findArrayofDays = function () {
         console.log('this.projectScope = ' + this.projectScope);
     };
+    MultipleDatePickerComponent.prototype.highlightDay = function (event, day) {
+        this._highlighter.emit([day, true]);
+    };
+    MultipleDatePickerComponent.prototype.unHighlightDay = function (event, day) {
+        this._highlighter.emit([day, false]);
+    };
     MultipleDatePickerComponent.decorators = [
         { type: core_1.Component, args: [{
                     selector: 'multiple-date-picker',
@@ -370,6 +380,7 @@ var MultipleDatePickerComponent = (function () {
         'month': [{ type: core_1.Input },],
         'projectScope': [{ type: core_1.Input },],
         'sundayFirstDay': [{ type: core_1.Input },],
+        'hover': [{ type: core_1.Output },],
         '_projectScope': [{ type: core_1.Input },],
     };
     return MultipleDatePickerComponent;

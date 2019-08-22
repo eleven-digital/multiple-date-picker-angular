@@ -1,7 +1,8 @@
-import { Component, Input, OnInit, forwardRef } from '@angular/core';
+import { Component, Input, OnInit, forwardRef, Output, EventEmitter } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DEFAULT_TEMPLATE, DEFAULT_STYLES } from './template';
 import * as moment from 'moment/moment';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'multiple-date-picker',
@@ -52,6 +53,12 @@ export class MultipleDatePickerComponent implements OnInit, ControlValueAccessor
     yearToDisplay: string;
     @Input() sundayFirstDay: boolean;
 
+    @Output() get hover(): Observable<[moment.Moment, boolean]> {
+        return this._highlighter.asObservable();
+    }
+
+    private _highlighter: EventEmitter<[moment.Moment, boolean]> = new EventEmitter();
+
     constructor(
 
     ) {
@@ -85,11 +92,11 @@ export class MultipleDatePickerComponent implements OnInit, ControlValueAccessor
         if (value !== undefined) {
             this.projectScope = value;
             if (value !== null) {
-                this.projectScope = this.projectScope.map((val: Date) => {
+                this.projectScope = this.projectScope.map((val: Date|moment.Moment) => {
                     return moment(val);
                 });
                 this.days.forEach((d) => {
-                    if (this.projectScope.some(day => d.date.isSame(day))) {
+                    if (this.projectScope.some(day => d.date.isSame(day, 'day'))) {
                         d.mdp.selected = true;
                     } else {
                         d.mdp.selected = false;
@@ -374,5 +381,13 @@ export class MultipleDatePickerComponent implements OnInit, ControlValueAccessor
     }
     findArrayofDays() {
         console.log('this.projectScope = ' + this.projectScope);
+    }
+
+    highlightDay(event: Event, day: moment.Moment) {
+        this._highlighter.emit([day, true]);
+    }
+
+    unHighlightDay(event: Event, day: moment.Moment) {
+        this._highlighter.emit([day, false]);
     }
 }
