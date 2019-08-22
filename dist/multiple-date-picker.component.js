@@ -328,7 +328,6 @@ var MultipleDatePickerComponent = (function () {
         }
         this.days = days;
         this.checkNavigationButtons();
-        this.propagateChange(this.projectScope);
     };
     MultipleDatePickerComponent.prototype.findArrayofDays = function () {
         console.log('this.projectScope = ' + this.projectScope);

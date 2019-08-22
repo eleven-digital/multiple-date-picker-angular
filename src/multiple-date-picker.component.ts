@@ -92,7 +92,7 @@ export class MultipleDatePickerComponent implements OnInit, ControlValueAccessor
         if (value !== undefined) {
             this.projectScope = value;
             if (value !== null) {
-                this.projectScope = this.projectScope.map((val: Date|moment.Moment) => {
+                this.projectScope = this.projectScope.map((val: Date | moment.Moment) => {
                     return moment(val);
                 });
                 this.days.forEach((d) => {
@@ -377,7 +377,6 @@ export class MultipleDatePickerComponent implements OnInit, ControlValueAccessor
         }
         this.days = days;
         this.checkNavigationButtons();
-        this.propagateChange(this.projectScope);
     }
     findArrayofDays() {
         console.log('this.projectScope = ' + this.projectScope);
