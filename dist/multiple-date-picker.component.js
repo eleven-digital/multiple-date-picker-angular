@@ -263,10 +263,10 @@ var MultipleDatePickerComponent = (function () {
             ((this.weekDaysOff instanceof Array) && this.weekDaysOff.some(function (dayOff) {
                 return day.date.day() === dayOff;
             })) ||
-            ((this.daysOff === Array) && this.daysOff.some(function (dayOff) {
+            ((this.daysOff instanceof Array) && this.daysOff.some(function (dayOff) {
                 return day.date.isSame(dayOff, 'day');
             })) ||
-            ((this.daysAllowed === Array) && !this.daysAllowed.some(function (dayAllowed) {
+            ((this.daysAllowed instanceof Array) && !this.daysAllowed.some(function (dayAllowed) {
                 return day.date.isSame(dayAllowed, 'day');
             })) ||
             ((Object.prototype.toString.call(this.highlightDays) === '[object Array]') && this.highlightDays.some(function (highlightDay) {

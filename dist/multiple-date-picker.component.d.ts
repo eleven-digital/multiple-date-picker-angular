@@ -59,7 +59,7 @@ export declare class MultipleDatePickerComponent implements OnInit, ControlValue
     getDayClasses(day: any): string;
     changeMonth(event: Event, disable: boolean, add: number): void;
     changeYear(year: number): void;
-    isDayOff(day: any): any;
+    isDayOff(day: any): string | boolean;
     isSelected(day: any): boolean;
     generate(): void;
     findArrayofDays(): void;
