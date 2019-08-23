@@ -34,8 +34,8 @@ export class MultipleDatePickerComponent implements OnInit, ControlValueAccessor
     @Input() showDaysOfSurroundingMonths: boolean;
     @Input() cssDaysOfSurroundingMonths: any = 'picker-empty';
     @Input() fireEventsForDaysOfSurroundingMonths: string;
-    @Input() disableDaysBefore: any;
-    @Input() disableDaysAfter: any;
+    @Input() disableDaysBefore: boolean | moment.Moment;
+    @Input() disableDaysAfter: boolean | moment.Moment;
     @Input() changeYearPast: string;
     @Input() changeYearFuture: string;
     arrow: number = 0;
@@ -297,9 +297,11 @@ export class MultipleDatePickerComponent implements OnInit, ControlValueAccessor
 
     /*Check if the date is off : unselectable*/
     isDayOff(day: any) {
+        const minDate = moment.isMoment(this.disableDaysBefore) ? this.disableDaysBefore : moment();
+        const maxDate = moment.isMoment(this.disableDaysAfter) ? this.disableDaysAfter : moment();
         return this.allDaysOff ||
-            (this.disableDaysBefore && moment(day.date).isBefore(moment(), 'day')) ||
-            (!!this.disableDaysAfter && moment(day.date).isAfter(moment(), 'day')) ||
+            (this.disableDaysBefore && moment(day.date).isBefore(minDate, 'day')) ||
+            (!!this.disableDaysAfter && moment(day.date).isAfter(maxDate, 'day')) ||
             ((this.weekDaysOff instanceof Array) && this.weekDaysOff.some(function (dayOff) {
                 return day.date.day() === dayOff;
             })) ||

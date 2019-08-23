@@ -255,9 +255,11 @@ var MultipleDatePickerComponent = (function () {
     ;
     /*Check if the date is off : unselectable*/
     MultipleDatePickerComponent.prototype.isDayOff = function (day) {
+        var minDate = moment.isMoment(this.disableDaysBefore) ? this.disableDaysBefore : moment();
+        var maxDate = moment.isMoment(this.disableDaysAfter) ? this.disableDaysAfter : moment();
         return this.allDaysOff ||
-            (this.disableDaysBefore && moment(day.date).isBefore(moment(), 'day')) ||
-            (!!this.disableDaysAfter && moment(day.date).isAfter(moment(), 'day')) ||
+            (this.disableDaysBefore && moment(day.date).isBefore(minDate, 'day')) ||
+            (!!this.disableDaysAfter && moment(day.date).isAfter(maxDate, 'day')) ||
             ((this.weekDaysOff instanceof Array) && this.weekDaysOff.some(function (dayOff) {
                 return day.date.day() === dayOff;
             })) ||
